@@ -6,7 +6,8 @@ class Directory extends React.Component {
   state = {
     users: [],
     filteredUsers: [],
-    sortedUsers: []
+    sortedUsers: [],
+    order: 1
   };
 
   componentDidMount() {
@@ -31,18 +32,20 @@ class Directory extends React.Component {
 
   handleSort = () => {
     const compare = (a, b) => {
-        const nameA = a.name.first
-        const nameB = b.name.first
-        if (nameA < nameB) {
-        return -1;
-        } else if (nameA > nameB) {
-        return 1;
-        } else {
-        return 0;
-        }
+      let result;
+      const nameA = a.name.first;
+      const nameB = b.name.first;
+      if (nameA < nameB) {
+        result = -1*this.state.order;
+      } else if (nameA > nameB) {
+        result = 1*this.state.order;
+      } else {
+        result = 0;
+      }
+      return result;
     };
     const sorted = this.state.users.sort(compare);
-    this.setState({ sortedUsers: sorted })
+    this.setState({ sortedUsers: sorted, order: -this.state.order });
   };
 
   renderHeader = () => {
